@@ -564,3 +564,8 @@ void kvm_arm_pmu_init(CPUState *cs)
 {
     qemu_log_mask(LOG_UNIMP, "%s: not implemented\n", __func__);
 }
+
+void kvm_arm_pvtime_init(CPUState *cs, uint64_t ipa)
+{
+    qemu_log_mask(LOG_UNIMP, "%s: not implemented\n", __func__);
+}

@@ -191,6 +191,18 @@ static void kvm_no_adjvtime_set(Object *obj, bool value, Error **errp)
     ARM_CPU(obj)->kvm_adjvtime = !value;
 }
 
+#ifdef TARGET_AARCH64
+static bool kvm_steal_time_get(Object *obj, Error **errp)
+{
+    return ARM_CPU(obj)->kvm_steal_time != ON_OFF_AUTO_OFF;
+}
+
+static void kvm_steal_time_set(Object *obj, bool value, Error **errp)
+{
+    ARM_CPU(obj)->kvm_steal_time = value ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
+}
+#endif
+
 /* KVM VCPU properties should be prefixed with "kvm-". */
 void kvm_arm_add_vcpu_properties(Object *obj)
 {
@@ -205,6 +217,13 @@ void kvm_arm_add_vcpu_properties(Object *obj)
                                     "Set on to disable the adjustment of "
                                     "the virtual counter. VM stopped time "
                                     "will be counted.", &error_abort);
+#ifdef TARGET_AARCH64
+    cpu->kvm_steal_time = ON_OFF_AUTO_AUTO;
+    object_property_add_bool(obj, "kvm-steal-time", kvm_steal_time_get,
+                             kvm_steal_time_set);
+    object_property_set_description(obj, "kvm-steal-time",
+                                    "Set off to disable KVM steal time.");
+#endif
 }
 
 bool kvm_arm_pmu_supported(CPUState *cpu)
