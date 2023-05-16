@@ -266,9 +266,9 @@ int bdrv_query_snapshot_info_list(BlockDriverState *bs,
  *
  * @p_info will be set only on success. On error, store error in @errp.
  */
-void bdrv_query_image_info(BlockDriverState *bs,
-                           ImageInfo **p_info,
-                           Error **errp)
+void coroutine_fn bdrv_query_image_info(BlockDriverState *bs,
+                                        ImageInfo **p_info,
+                                        Error **errp)
 {
     int64_t size;
     const char *backing_filename;
@@ -277,7 +277,10 @@ void bdrv_query_image_info(BlockDriverState *bs,
     Error *err = NULL;
     ImageInfo *info;
 
-    aio_context_acquire(bdrv_get_aio_context(bs));
+    AioContext *old_ctx = NULL;
+    if (qemu_in_coroutine()) {
+        old_ctx = bdrv_co_enter(bs);
+    }
 
     size = bdrv_getlength(bs);
     if (size < 0) {
@@ -357,7 +360,9 @@ void bdrv_query_image_info(BlockDriverState *bs,
     *p_info = info;
 
 out:
-    aio_context_release(bdrv_get_aio_context(bs));
+    if (qemu_in_coroutine()) {
+        bdrv_co_leave(bs, old_ctx);
+    }
 }
 
 /* @p_info will be set only on success. */
