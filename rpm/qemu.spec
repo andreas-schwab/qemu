@@ -98,7 +98,7 @@ BuildRequires:  cross-x86_64-gcc%gcc_version
 BuildRequires:  acpica
 BuildRequires:  binutils-devel
 BuildRequires:  dos2unix
-BuildRequires:  glibc-devel-32bit
+#BuildRequires:  glibc-devel-32bit
 BuildRequires:  pkgconfig(liblzma)
 %endif
 %if %{build_opensbi_firmware}
@@ -114,7 +114,7 @@ BuildRequires:  cross-ppc64-gcc%gcc_version
 %endif
 %endif
 %ifarch x86_64
-BuildRequires:  gcc-32bit
+#BuildRequires:  gcc-32bit
 BuildRequires:  xen-devel >= 4.2
 BuildRequires:  pkgconfig(libpmem)
 %endif
