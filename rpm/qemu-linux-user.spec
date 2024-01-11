@@ -27,7 +27,7 @@ URL:            https://www.qemu.org/
 Summary:        CPU emulator for user space
 License:        BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT
 Group:          System/Emulators/PC
-Version:        8.1.3
+Version:        8.2.0
 Release:        0
 Source0:        qemu-%{version}.tar.xz
 Source1:        common.inc
@@ -158,6 +158,7 @@ EXTRA_CFLAGS="$(echo %{optflags} | sed -E 's/-[A-Z]?_FORTIFY_SOURCE[=]?[0-9]*//g
 	--python=%_bindir/python3 \
 	--sysconfdir=%_sysconfdir \
 	--with-pkgversion="%(echo '%{distro}' | sed 's/ (.*)//')" \
+	--disable-af-xdp \
 	--disable-alsa \
 	--disable-attr \
 	--disable-auth-pam \
@@ -199,7 +200,7 @@ EXTRA_CFLAGS="$(echo %{optflags} | sed -E 's/-[A-Z]?_FORTIFY_SOURCE[=]?[0-9]*//g
 	--disable-gtk \
 	--disable-guest-agent \
 	--disable-guest-agent-msi \
-	--disable-hax \
+	--disable-hv-balloon \
 	--disable-hvf \
 	--disable-iconv \
 	--disable-jack \
@@ -207,6 +208,7 @@ EXTRA_CFLAGS="$(echo %{optflags} | sed -E 's/-[A-Z]?_FORTIFY_SOURCE[=]?[0-9]*//g
 	--disable-l2tpv3 \
 	--disable-libdaxctl \
 	--disable-libiscsi \
+	--disable-libkeyutils \
 	--disable-libnfs \
 	--disable-libpmem \
 	--disable-libssh \
@@ -235,6 +237,7 @@ EXTRA_CFLAGS="$(echo %{optflags} | sed -E 's/-[A-Z]?_FORTIFY_SOURCE[=]?[0-9]*//g
 	--disable-parallels \
 	--disable-pie \
 	--disable-pipewire \
+	--disable-pixman \
 	--disable-plugins \
 	--disable-png \
 	--disable-pvrdma \
@@ -243,8 +246,10 @@ EXTRA_CFLAGS="$(echo %{optflags} | sed -E 's/-[A-Z]?_FORTIFY_SOURCE[=]?[0-9]*//g
 	--disable-qom-cast-debug \
 	--disable-rbd \
 	--disable-rdma \
+	--disable-relocatable \
 	--disable-replication \
 	--disable-rng-none \
+	--disable-rutabaga-gfx \
 	--disable-safe-stack \
 	--disable-sanitizers \
 	--disable-sdl \
